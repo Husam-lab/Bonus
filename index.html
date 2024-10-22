@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة الرواتب</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="./Mon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            direction: rtl;
+            color: #fff;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+            gap: 20px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 10px; /* المسافة بين الحقول */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        label {
+            flex: 1;
+            color: #fff;
+        }
+
+        input, select {
+            flex: 0.5;
+            width: 50%;
+            text-align: center;
+            padding: 4px;
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #555;
+        }
+
+        input {
+            font-size: 16px;
+        }
+
+        button {
+            width: 48%;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .calculate-btn {
+            background-color: #4CAF50;
+        }
+
+        .reset-btn {
+            background-color: #f44336;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>حاسبة رواتب الصحة العراقية</h2>
+    <h4>(إعداد حسام الحديدي)</h4>
+</div>
+
+<div class="calculator">
+    <div class="form-group">
+        <label for="maritalStatus">الحالة الزوجية</label>
+        <select id="maritalStatus" onchange="toggleChildren()">
+            <option value="" disabled selected>إختر الحالة الزوجية</option>
+            <option value="married">متزوج</option>
+            <option value="single">غير متزوج</option>
+        </select>
+    </div>
+
+    <div class="form-group hidden" id="childrenGroup">
+        <label for="children">عدد الأطفال</label>
+        <select id="children">
+            <option value="" disabled selected>إختر عدد الأطفال</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="transportAllowance">مخصصات النقل</label>
+        <select id="transportAllowance">
+            <option value="" disabled selected>اختر مخصصات النقل</option>
+            <option value="10000">10 آلاف مركز المحافظة</option>
+            <option value="20000">20 ألف قضاء</option>
+            <option value="30000">30 ألف ناحية</option>
+            <option value="40000">40 ألف قرى وأرياف</option>
+            <option value="50000">50 ألف مناطق نائية</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button class="calculate-btn" onclick="calculateSalary()">أحسب الراتب</button>
+        <button class="reset-btn" onclick="resetForm()">تصفير الحسابات</button>
+    </div>
+
+    <div class="form-group">
+        <span id="retirementDeduction">المبلغ المستقطع للتقاعد = 0 دينار عراقي</span>
+    </div>
+
+    <div class="form-group">
+        <h3 id="totalSalary">صافي الراتب الكلي = 0 دينار عراقي</h3>
+    </div>
+</div>
+
+<script>
+    function toggleChildren() {
+        const maritalStatus = document.getElementById('maritalStatus').value;
+        const childrenGroup = document.getElementById('childrenGroup');
+
+        if (maritalStatus === 'married') {
+            childrenGroup.classList.remove('hidden');
+        } else {
+            childrenGroup.classList.add('hidden');
+        }
+    }
+
+    function calculateSalary() {
+        let baseSalary = 0; // القيم الفعلية تعتمد على حقول أخرى
+        const maritalStatus = document.getElementById('maritalStatus').value;
+        const transportAllowance = parseInt(document.getElementById('transportAllowance').value || 0);
+
+        if (maritalStatus === 'married') {
+            baseSalary += 50000; // إضافة مخصصات الزوجية
+        }
+
+        let totalSalary = baseSalary + transportAllowance;
+        document.getElementById('totalSalary').textContent = 'صافي الراتب الكلي = ' + totalSalary + ' دينار عراقي';
+    }
+
+    function resetForm() {
+        document.getElementById('maritalStatus').value = "";
+        document.getElementById('transportAllowance').value = "";
+        document.getElementById('totalSalary').textContent = 'صافي الراتب الكلي = 0 دينار عراقي';
+        document.getElementById('childrenGroup').classList.add('hidden');
+    }
+</script>
+
+</body>
+</html>
