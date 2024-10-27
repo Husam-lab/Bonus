@@ -120,10 +120,10 @@
             </div>
         </div>
         <div class="button-group">
-            <button class="btn-calculate" onclick="calculateBonus()">احسب البونص</button>
+            <button class="btn-calculate" onclick="calculateBonus()">أحسب البونص</button>
             <button class="btn-clear" onclick="clearBonus()">تصفير البونص</button>
         </div>
-        <div class="result" id="bonusResult">صافي السعر: </div>
+        <div class="result" id="bonusResult">صافي السعر : </div>
 
 <hr class="divider">
 <h3>حساب الدعم</h3>
@@ -138,7 +138,7 @@
             </div>
         </div>
         <div class="button-group">
-            <button class="btn-calculate" onclick="calculateSupport()">احسب الدعم</button>
+            <button class="btn-calculate" onclick="calculateSupport()">أحسب الدعم</button>
             <button class="btn-clear" onclick="clearSupport()">تصفير الدعم</button>
         </div>
         <div class="result" id="supportResult">الدعم : </div>
@@ -154,7 +154,7 @@
             const bonusPercentage = parseFloat(document.getElementById('bonusPercentage').value);
             if (!isNaN(price) && !isNaN(bonusPercentage)) {
                 const bonusResult = price - (price * bonusPercentage / 100);
-                document.getElementById('bonusResult').innerText = 'النتيجة: ' + formatNumber(bonusResult) + ' دينار';
+                document.getElementById('bonusResult').innerText = 'صافي السعر : ' + formatNumber(bonusResult) + ' دينار عراقي';
             } else {
                 document.getElementById('bonusResult').innerText = 'يرجى إدخال قيم صحيحة';
             }
@@ -165,7 +165,7 @@
             const supportPercentage = parseFloat(document.getElementById('supportPercentage').value);
             if (!isNaN(price) && !isNaN(supportPercentage)) {
                 const supportResult = price * supportPercentage / 100;
-                document.getElementById('supportResult').innerText = 'النتيجة: ' + formatNumber(supportResult) + ' دينار';
+                document.getElementById('supportResult').innerText = 'الدعم :  ' + formatNumber(supportResult) + ' دينار عراقي';
             } else {
                 document.getElementById('supportResult').innerText = 'يرجى إدخال قيم صحيحة';
             }
