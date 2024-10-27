@@ -1,1 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب البونص والدعم</title>
+    <style>
+        body {
+            direction: rtl;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            margin-top: 50px;
+            width: 300px;
+            margin: auto;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .input-group .input-wrapper {
+            position: relative;
+            width: 50%;
+        }
+        .input-group input {
+            width: 90%;
+            padding: 15px 10px 5px;
+            border-radius: 5px;
+            border: 0.1px solid white;
+            background-color: black;
+            color: white;
+            outline: none;
+            font-size: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .input-group label {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            color: gray;
+            font-size: 16px;
+            transition: 0.3s;
+            pointer-events: none;
+            background-color: black;
+            padding: 0 5px;
+            z-index: 2;
+        }
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: -5px;
+            align-items: center;
+            text-align: center;
+            font-size: 12px;
+            color: white;
+            background-color: black;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        button {
+            width: 45%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-calculate {
+            background-color: #4CAF50;
+        }
+        .btn-calculate:hover {
+            background-color: #45a049;
+        }
+        .btn-clear {
+            background-color: #f44336;
+        }
+        .btn-clear:hover {
+            background-color: #d32f2f;
+        }
+        .result {
+            font-size: 24px;
+            margin-top: 20px;
+            color: white;
+        }
+      .divider {
+    border: 0;
+    height: 2px;
+    background: red;
+    margin: 40px 0;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>حساب البونص والدعم</h2>
+        <h3>...................</h3>
+        <h3>حساب البونص</h3>
+        <div class="input-group">
+            <div class="input-wrapper">
+                <input type="number" id="priceBonus" placeholder=" " oninput="copyPriceToSupport()">
+                <label for="priceBonus">أدخل السعر</label>
+            </div>
+            <div class="input-wrapper">
+                <input type="number" id="bonusPercentage" placeholder=" ">
+                <label for="bonusPercentage">نسبة البونص (%)</label>
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="btn-calculate" onclick="calculateBonus()">احسب البونص</button>
+            <button class="btn-clear" onclick="clearBonus()">تصفير البونص</button>
+        </div>
+        <div class="result" id="bonusResult">النتيجة: </div>
 
+<hr class="divider">
+<h3>حساب الدعم</h3>
+        <div class="input-group">
+            <div class="input-wrapper">
+                <input type="number" id="priceSupport" placeholder=" ">
+                <label for="priceSupport">أدخل السعر</label>
+            </div>
+            <div class="input-wrapper">
+                <input type="number" id="supportPercentage" placeholder=" ">
+                <label for="supportPercentage">نسبة الدعم (%)</label>
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="btn-calculate" onclick="calculateSupport()">احسب الدعم</button>
+            <button class="btn-clear" onclick="clearSupport()">تصفير الدعم</button>
+        </div>
+        <div class="result" id="supportResult">النتيجة: </div>
+    </div>
+
+    <script>
+        function copyPriceToSupport() {
+            document.getElementById('priceSupport').value = document.getElementById('priceBonus').value;
+        }
+
+        function calculateBonus() {
+            const price = parseFloat(document.getElementById('priceBonus').value);
+            const bonusPercentage = parseFloat(document.getElementById('bonusPercentage').value);
+            if (!isNaN(price) && !isNaN(bonusPercentage)) {
+                const bonusResult = price - (price * bonusPercentage / 100);
+                document.getElementById('bonusResult').innerText = 'النتيجة: ' + formatNumber(bonusResult) + ' دينار';
+            } else {
+                document.getElementById('bonusResult').innerText = 'يرجى إدخال قيم صحيحة';
+            }
+        }
+
+        function calculateSupport() {
+            const price = parseFloat(document.getElementById('priceSupport').value);
+            const supportPercentage = parseFloat(document.getElementById('supportPercentage').value);
+            if (!isNaN(price) && !isNaN(supportPercentage)) {
+                const supportResult = price * supportPercentage / 100;
+                document.getElementById('supportResult').innerText = 'النتيجة: ' + formatNumber(supportResult) + ' دينار';
+            } else {
+                document.getElementById('supportResult').innerText = 'يرجى إدخال قيم صحيحة';
+            }
+        }
+
+        function clearBonus() {
+            document.getElementById('priceBonus').value = '';
+            document.getElementById('bonusPercentage').value = '';
+            document.getElementById('bonusResult').innerText = 'النتيجة: ';
+            document.getElementById('priceSupport').value = ''; // Reset support price
+        }
+
+        function clearSupport() {
+            document.getElementById('priceSupport').value = '';
+            document.getElementById('supportPercentage').value = '';
+            document.getElementById('supportResult').innerText = 'النتيجة: ';
+        }
+
+        function formatNumber(num) {
+            return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+</body>
+</html>
