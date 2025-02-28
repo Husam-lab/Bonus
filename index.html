@@ -3,193 +3,108 @@
 <head>
     <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة البونص والدعم</title>
+    <title>محول العملات</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" sizes="180x180" href="./dol.png">
    <style>
         body {
-            direction: rtl;
-            background-color: #333; /* لون خلفية أسود */
-            color: #fff; /* لون النص أبيض */
             font-family: Arial, sans-serif;
             text-align: center;
+            direction: rtl;
+            background-color: #000; /* خلفية سوداء */
+            color: #fff; /* لون النص أبيض */
+            margin: 0;
+            padding: 0;
         }
         .container {
-            margin-top: 50px;
-            width: 300px;
-            margin: auto;
-        }
-        .input-group {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .input-group .input-wrapper {
-            position: relative;
-            width: 50%;
-        }
-        .input-group input {
             width: 90%;
-            padding: 15px 10px 5px;
-            border-radius: 5px;
-            border: 0.1px solid white;
-            background-color: #333; /* لون خلفية أسود */
-            color: #fff; /* لون النص أبيض */                  outline: none;
-            font-size: 16px;
-            position: relative;
-            z-index: 1;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .input-group label {
-            position: absolute;
-            top: 50%;
-            right: 5px;
-            transform: translateY(-50%);
-            font-size: 16px;
-            transition: 0.3s;
-            pointer-events: none;
-            background-color: #333; /* لون خلفية أسود */
-            color: #fff; /* لون النص أبيض */            padding: 0 5px;
-            z-index: 2;
-        }
-        .input-group input:focus + label,
-        .input-group input:not(:placeholder-shown) + label {
-            top: -5px;
-            align-items: center;
+        input {
+            width: 90%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 20px;
             text-align: center;
-            font-size: 12px;
-            background-color: #333; /* لون خلفية أسود */
-            color: #fff; /* لون النص أبيض */
-      }
-        .button-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #222;
+            color: #fff;
+            outline: none;
         }
         button {
-            width: 45%;
-            padding: 10px;
-            border-radius: 5px;
+            width: 80%;
+            background-color: red;
+            color: white;
+            padding: 15px;
             border: none;
-            font-size: 16px;
             cursor: pointer;
-            color: white;
-            transition: background-color 0.3s;
+            font-size: 20px;
+            margin-top: 15px;
+            border-radius: 5px;
         }
-        .btn-calculate {
-            background-color: #4CAF50;
+        button:hover {
+            background-color: darkred;
         }
-        .btn-calculate:hover {
-            background-color: #45a049;
-        }
-        .btn-clear {
-            background-color: #f44336;
-        }
-        .btn-clear:hover {
-            background-color: #d32f2f;
-        }
-        .result {
-            font-size: 24px;
-            margin-top: 20px;
-            color: white;
-        }
-      .divider {
-    border: 0;
-    height: 2px;
-    background: red;
-    margin: 40px 0;
-}
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h2>حاسبة البونص والدعم</h2>
-        <img src="https://cdn-icons-png.flaticon.com/512/7858/7858148.png" alt="أيقونة الأموال" style="width: 50px; height: 50px;">
-        <h3>حساب البونص</h3>
-        <div class="input-group">
-            <div class="input-wrapper">
-                <input type="number" id="priceBonus"  pattern="[0-9]*" inputmode="decimal" placeholder=" " oninput="copyPriceToSupport()">
-                <label for="priceBonus">أدخل السعر (دينار)</label>
-            </div>
-            <div class="input-wrapper">
-                <input type="number" id="bonusPercentage"  pattern="[0-9]*" inputmode="decimal" placeholder=" ">
-                <label for="bonusPercentage">نسبة البونص (%)</label>
-            </div>
-        </div>
-        <div class="button-group">
-            <button class="btn-calculate" onclick="calculateBonus()">أحسب البونص</button>
-            <button class="btn-clear" onclick="clearBonus()">تصفير البونص</button>
-        </div>
-        <div class="result" id="bonusResult">صافي السعر : </div>
+        <h2>🔹 محول العملات 🔹</h2>
+        <label>الدولار الأمريكي ($):</label>
+        <input type="number" id="usd" min="1" step="0.1" inputmode="decimal" oninput="convertFromUSD()" placeholder="أدخل المبلغ بالدولار">
 
-<hr class="divider">
-<h3>حساب الدعم</h3>
-        <div class="input-group">
-            <div class="input-wrapper">
-                <input type="number" id="priceSupport"  pattern="[0-9]*" inputmode="decimal" placeholder=" ">
-                <label for="priceSupport">أدخل السعر (دينار)</label>
-            </div>
-            <div class="input-wrapper">
-                <input type="number" id="supportPercentage"  pattern="[0-9]*" inputmode="decimal" placeholder=" ">
-                <label for="supportPercentage">نسبة الدعم (%)</label>
-            </div>
-        </div>
-        <div class="button-group">
-            <button class="btn-calculate" onclick="calculateSupport()">أحسب الدعم</button>
-            <button class="btn-clear" onclick="clearSupport()">تصفير الدعم</button>
-        </div>
-        <div class="result" id="supportResult">الدعم : </div>
+        <label>الريال السعودي (SAR):</label>
+        <input type="number" id="sar" min="1" step="0.1" inputmode="decimal" oninput="convertFromSAR()" placeholder="أدخل المبلغ بالريال">
+
+        <label>الدينار العراقي (IQD):</label>
+        <input type="text" id="iqd" min="1" step="1" inputmode="numeric" oninput="convertFromIQD()" placeholder="أدخل المبلغ بالدينار">
+
+        <button onclick="resetFields()">🗑 تصفير</button>
     </div>
-       <br>
-  <br>
-    <br>
-  <br>
-  </div>         ® HUSAM AL-HADIDI           </div>
+
     <script>
-        function copyPriceToSupport() {
-            document.getElementById('priceSupport').value = document.getElementById('priceBonus').value;
+        const exchangeRates = {
+            usdToIqd: 1500,  // 1 دولار = 1500 دينار عراقي
+            usdToSar: 3.7,   // 1 دولار = 3.7 ريال سعودي
+        };
+
+        function convertFromUSD() {
+            let usd = parseFloat(document.getElementById("usd").value) || 0;
+            document.getElementById("sar").value = Math.floor(usd * exchangeRates.usdToSar); // بدون فاصلة عشرية
+            document.getElementById("iqd").value = formatNumber(Math.floor(usd * exchangeRates.usdToIqd)); // بدون فاصلة عشرية
         }
 
-        function calculateBonus() {
-            const price = parseFloat(document.getElementById('priceBonus').value);
-            const bonusPercentage = parseFloat(document.getElementById('bonusPercentage').value);
-            if (!isNaN(price) && !isNaN(bonusPercentage)) {
-                const bonusResult = price - (price * bonusPercentage / 100);
-                document.getElementById('bonusResult').innerText = 'صافي السعر : ' + formatNumber(bonusResult) + ' دينار عراقي';
-            } else {
-                document.getElementById('bonusResult').innerText = 'يرجى إدخال قيم صحيحة';
-            }
+        function convertFromSAR() {
+            let sar = parseFloat(document.getElementById("sar").value) || 0;
+            let usd = sar / exchangeRates.usdToSar;
+            document.getElementById("usd").value = usd.toFixed(2);
+            document.getElementById("iqd").value = formatNumber(Math.floor(usd * exchangeRates.usdToIqd)); // بدون فاصلة عشرية
         }
 
-        function calculateSupport() {
-            const price = parseFloat(document.getElementById('priceSupport').value);
-            const supportPercentage = parseFloat(document.getElementById('supportPercentage').value);
-            if (!isNaN(price) && !isNaN(supportPercentage)) {
-                const supportResult = price * supportPercentage / 100;
-                document.getElementById('supportResult').innerText = 'الدعم :  ' + formatNumber(supportResult) + ' دينار عراقي';
-            } else {
-                document.getElementById('supportResult').innerText = 'يرجى إدخال قيم صحيحة';
-            }
+        function convertFromIQD() {
+            let iqd = parseInt(document.getElementById("iqd").value.replace(/,/g, '')) || 0;
+            let usd = iqd / exchangeRates.usdToIqd;
+            document.getElementById("usd").value = usd.toFixed(2);
+            document.getElementById("sar").value = Math.floor(usd * exchangeRates.usdToSar); // بدون فاصلة عشرية
+            document.getElementById("iqd").value = formatNumber(iqd);
         }
 
-        function clearBonus() {
-            document.getElementById('priceBonus').value = '';
-            document.getElementById('bonusPercentage').value = '';
-            document.getElementById('bonusResult').innerText = 'صافي السعر : ';
-        }
-
-        function clearSupport() {
-            document.getElementById('priceSupport').value = '';
-            document.getElementById('supportPercentage').value = '';
-            document.getElementById('supportResult').innerText = 'الدعم : ';
+        function resetFields() {
+            document.getElementById("usd").value = "";
+            document.getElementById("sar").value = "";
+            document.getElementById("iqd").value = "";
         }
 
         function formatNumber(num) {
-            return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num.toLocaleString("en-US");
         }
     </script>
+
+    <p>الحاسبة صممت على سعر الصرف 1,500 دينار لكل 1 دولار</p>
+
 </body>
 </html>
