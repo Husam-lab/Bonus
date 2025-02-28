@@ -1,11 +1,11 @@
 {
-    "name": "حاسبة البونص",
-    "short_name": "حاسبة البونص",
+    "name": "محول العملات",
+    "short_name": "محول العملات",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#0D6EFD",
-    "description": " حاسبة البونص والدعم.",
+    "description": " محول العملات.",
     "icons": [
         {
             "src": "./dol.png",
